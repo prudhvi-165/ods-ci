@@ -1,25 +1,19 @@
-# sh run_robot_test.sh --extra-robot-args '-i ODS-1072'
 *** Settings ***
 Library  SeleniumLibrary
 Resource        ../../Resources/Page/ODH/ODHDashboard/ODHDashboard.robot
-Resource        ../../Resources/Page/ODH/ODHDashboard/ODHDashboard.resource
 Test Setup   Dashboard Test Setup
 Test Teardown    Dashboard Test Teardown
 
 *** Variables ***
-${url} =   https://console-openshift-console.apps.qeaisrhods9.i9jt.s1.devshift.org/
-${browser} =  chrome
-${username} =  ldap-admin11
-${password} =   rhodsPW#1
+${user_name} =  //div[@class='pf-c-page__header-tools-item'][3]//span[1]
 
 *** Test Cases ***
-verify login
+Verify "logged in users" are displayed in the dashboard
     [Tags]   Sanity
-    ...     ODS-1072
+    ...     ODS-354
     Login To RHODS Dashboard  ${TEST_USER.USERNAME}  ${TEST_USER.PASSWORD}  ${TEST_USER.AUTH_TYPE}
     Wait for RHODS Dashboard to Load
-    Element Text Should Be    xpath=//div[@class='pf-c-page__header-tools-item'][3]//span[1]   ldap-admin11
-
+    Element Text Should Be    xpath=${user_name}   ${TEST_USER.USERNAME}
 
 *** Keywords ***
 Dashboard Test Setup
