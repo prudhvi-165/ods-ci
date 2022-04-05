@@ -405,4 +405,4 @@ RHODS Notification Drawer Should Contain
     [Documentation]    Verifies RHODS Notifications contains given Message
     [Arguments]     ${message}
     Click Element    xpath=//*[contains(@class,'notification-badge')]
-    Wait Until Page Contains Element    xpath=//*[contains(text(),'${message}')]  timeout=5min
+    Wait Until Page Contains Element    xpath=//*[contains(text(),'${message}')]  timeout=2min
