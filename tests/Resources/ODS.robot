@@ -202,13 +202,23 @@ Verify Default Access Groups Settings
         Verify RHODS Groups Config Map Contains Expected Values   &{exp_values}
     END
 
-Disable Access To Grafana Using OpenShift Port Forwarding
+Disable Access Using OpenShift Port Forwarding
     [Documentation]   Kill process running in background based on Id
-    [Arguments]  ${PROC}
-    Terminate Process   ${PROC}
+    [Arguments]  ${port_forwarding_process}
+    Terminate Process   ${port_forwarding_process}
 
 Enable Access To Grafana Using OpenShift Port Forwarding
     [Documentation]  Enable Access to Grafana Using OpenShift Port-Forwarding
-    ${PROC} =  Start Process   oc -n redhat-ods-monitoring port-forward $(oc get pods -n redhat-ods-monitoring | grep grafana | awk '{print $1}' | head -n 1) 3001  shell=True  # robocop: disable
-    [Return]    ${PROC}
+    ${port_forwarding_process} =  Start Process   oc -n redhat-ods-monitoring port-forward $(oc get pods -n redhat-ods-monitoring | grep grafana | awk '{print $1}' | head -n 1) 3001  shell=True  # robocop: disable
+    [Return]    ${port_forwarding_process}
+
+Enable Access To Prometheus Using OpenShift Port Forwarding
+    [Documentation]  Enable Access to Prometheus Using OpenShift Port-Forwarding
+    ${port_forwarding_process} =  Start Process   oc -n redhat-ods-monitoring port-forward $(oc get pods -n redhat-ods-monitoring | grep prometheus | awk '{print $1}') 9090  shell=True  # robocop: disable
+    [Return]    ${port_forwarding_process}
+
+Enable Access To Alert Manager Using OpenShift Port Forwarding
+    [Documentation]  Enable Access to Alert Manager Using OpenShift Port-Forwarding
+    ${port_forwarding_process} =  Start Process   oc -n redhat-ods-monitoring port-forward $(oc get pods -n redhat-ods-monitoring | grep prometheus | awk '{print $1}') 9093   shell=True  # robocop: disable
+    [Return]    ${port_forwarding_process}
 
